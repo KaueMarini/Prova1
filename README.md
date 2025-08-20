@@ -1,6 +1,6 @@
 # TP - Prática de Programação
 
-Este repositório contém um Trabalho Prático (TP) desenvolvido para a disciplina de Prática de Programação.
+Este repositório contém um Trabalho Prático desenvolvido para a disciplina de Prática de Programação.
 
 ## Sobre o Projeto
 
