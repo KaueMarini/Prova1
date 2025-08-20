@@ -31,49 +31,49 @@ namespace Prova
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Cliente.setCNPJ(textBox1.Text.Trim());
-
-            BLL.validaCNPJ();
-            if (Erro.getErro())
-            {
-                MessageBox.Show(Erro.getMsg());
-                return;
-            }
-
-            if (!BLL.getCliente(Cliente.getCNPJ()))
-            {
-                MessageBox.Show("Cliente não encontrado!");
-                return;
-            }
-
-            textBox2.Text = Cliente.getNome();
-
-            var vendas = BLL.getVendasCliente(Cliente.getCNPJ());
-
             listBox1.Items.Clear();
             listBox2.Items.Clear();
             listBox3.Items.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
 
-            decimal totalTon = 0;
-            decimal totalVal = 0;
+            string cnpj = textBox1.Text.Trim();
 
-            foreach (var venda in vendas)
+            if (BLL.getCliente(cnpj))
             {
-                listBox1.Items.Add(venda[0]); // Data
-                listBox2.Items.Add(venda[1]); // Toneladas
-                listBox3.Items.Add(venda[2]); // Valor
+                textBox2.Text = Cliente.getNome();
+                List<string[]> vendas = BLL.getVendasCliente(cnpj);
 
-                decimal ton;
-                if (decimal.TryParse(venda[1], out ton))
-                    totalTon += ton;
+                decimal totalTon = 0;
+                decimal totalVal = 0;
 
-                decimal val;
-                if (decimal.TryParse(venda[2], out val))
-                    totalVal += val;
+                foreach (var venda in vendas)
+                {
+                    listBox1.Items.Add(venda[0]); 
+                    listBox2.Items.Add(venda[1]); 
+
+                    decimal valorVenda;
+                    if (decimal.TryParse(venda[2], out valorVenda))
+                    {
+                        listBox3.Items.Add(valorVenda.ToString("C"));
+                        totalVal += valorVenda;
+                    }
+                    decimal toneladasVenda;
+                    if (decimal.TryParse(venda[1], out toneladasVenda))
+                    {
+                        totalTon += toneladasVenda;
+                    }
+                }
+
+                textBox3.Text = totalTon.ToString("N2");
+                textBox4.Text = totalVal.ToString("C");
+            }
+            else
+            {
+                MessageBox.Show(Erro.getMsg());
             }
 
-            textBox3.Text = totalTon.ToString("N2");
-            textBox4.Text = totalVal.ToString("C");
         }
     }
 }

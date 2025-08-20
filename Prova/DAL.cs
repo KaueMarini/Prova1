@@ -36,7 +36,7 @@ namespace Prova
         {
             try
             {
-                string sql = "SELECT * FROM Clientes WHERE CNPJ = @cnpj";
+                string sql = "SELECT * FROM TabClientes WHERE CNPJ = @cnpj";
                 strSQL = new OleDbCommand(sql, conn);
                 strSQL.Parameters.AddWithValue("@cnpj", cnpj);
                 result = strSQL.ExecuteReader();
@@ -63,16 +63,16 @@ namespace Prova
             List<string[]> vendas = new List<string[]>();
             try
             {
-                string sql = "SELECT * FROM VendasCliente WHERE CNPJ = @cnpj";
+                string sql = "SELECT * FROM TabVendasCliente WHERE CNPJ = @cnpj";
                 strSQL = new OleDbCommand(sql, conn);
                 strSQL.Parameters.AddWithValue("@cnpj", cnpj);
                 result = strSQL.ExecuteReader();
 
                 while (result.Read())
                 {
-                    string data = Convert.ToDateTime(result["DataVenda"]).ToShortDateString();
-                    string toneladas = result["Toneladas"].ToString();
-                    string valor = result["Valor"].ToString();
+                    string data = Convert.ToDateTime(result["data"]).ToShortDateString();
+                    string toneladas = result["toneladas"].ToString();
+                    string valor = result["valor"].ToString();
 
                     vendas.Add(new string[] { data, toneladas, valor });
                 }
@@ -84,7 +84,5 @@ namespace Prova
             }
             return vendas;
         }
-
-
     }
 }
